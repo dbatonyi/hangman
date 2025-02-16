@@ -1,0 +1,24 @@
+.header {
+    position: relative;
+    background-color: white;
+
+    &__container {
+        max-width: 1060px;
+        margin: auto;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &--link {
+            color: black;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

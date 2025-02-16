@@ -1,7 +1,29 @@
+//Pages
+@use "./pages/dashboard.scss" as *;
+@use "./pages/admin.scss" as *;
+@use "./pages/game.scss" as *;
+
+//Components
+@use "./components/header.scss" as *;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+}
+
 path,
 circle {
 stroke: #707070;
 stroke-width: 0.1;
 stroke-linecap: round;
 fill: non
+}
+
+.error {
+    color: #ff0000;
 }

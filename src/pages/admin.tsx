@@ -8,18 +8,24 @@ import { RootState } from '../store';
 const AdminPanel = () => {
     useLoadWordsFromLocalStorage();
     const router = useRouter();
-    const [newWord, setNewWord] = useState('');
+    const [newWord, setNewWord] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const words = useSelector((state: RootState) => state.game.words);
     const dispatch = useDispatch();
 
+    const handleInput = (value: string) => {
+        setErrorMessage("");
+        setNewWord(value);
+    }
+
     const handleAddWord = () => {
         if (newWord.length < 6 || newWord.length > 14) {
-            console.error("The number of characters must be between 6 and 14")
+            setErrorMessage("The number of characters must be between 6 and 14")
             return;
         }
 
         if (words.includes(newWord)) {
-            alert('That word already exists!');
+            setErrorMessage('That word already exists!');
             return;
         }
 
@@ -28,21 +34,29 @@ const AdminPanel = () => {
     };
 
     return (
-        <div>
+        <div className='admin'>
             <h1>Admin</h1>
-            <input
-                type="text"
-                value={newWord}
-                onChange={(e) => setNewWord(e.target.value)}
-                placeholder="New word"
-            />
-            <button onClick={handleAddWord}>Add new word</button>
-            <button onClick={() => router.push("/")}>Back</button>
-            <ul>
-                {words.map((word, index) => (
-                    <li key={index}>{word}</li>
-                ))}
-            </ul>
+            <div className='admin__container'>
+                <div className='admin__container--left'>
+                    <p>Type the word you want to add to the list</p>
+                    <input
+                        type="text"
+                        value={newWord}
+                        onChange={(e) => handleInput(e.target.value)}
+                        placeholder="New word"
+                    />
+                    {errorMessage && <p className='error'>{errorMessage}</p>}
+                    <button onClick={handleAddWord}>Save</button>
+                    <button onClick={() => router.push("/")}>Back</button>
+                </div>
+                <div className='admin__container--right'>
+                    <ul>
+                        {words.map((word, index) => (
+                            <li key={index}>{word}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };

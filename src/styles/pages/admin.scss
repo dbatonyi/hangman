@@ -1,0 +1,109 @@
+.admin {
+    max-width: 900px;
+    background-color: white;
+    margin: 40px auto;
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    @media (max-width: 974px) {
+        margin: 40px 10px;
+    }
+
+    h1 {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #707070;
+        margin-bottom: 40px;
+        width: 100%;
+        text-align: center;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        @media (max-width: 974px) {
+            flex-wrap: wrap;
+        }
+
+        &--left {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            width: 30%;
+
+            @media (max-width: 974px) {
+                width: 100%;
+            }
+
+            input {
+                width: 100%;
+                height: 45px;
+                padding: 5px 10px;
+                border: 2px solid #F2F2F2;
+                border-radius: 5px;
+            }
+
+            button {
+                width: 100%;
+                border: 1px solid transparent;
+                height: 45px;
+
+                margin-top: 20px;
+                border-radius: 5px;
+                cursor: pointer;
+
+                &:first-of-type {
+                    background-color: #00AAEB;
+                    color: white;
+
+                    &:hover {
+                        border-color: #00AAEB;
+                        background-color: white;
+                        color: #00AAEB;
+                    }
+                }
+
+                &:last-of-type {
+                    border-color: #00AAEB;
+                    background-color: white;
+                    color: #00AAEB;
+
+                    &:hover {
+                        background-color: #00AAEB;
+                        color: white;
+                    }
+                }
+            }
+        }
+
+        &--right {
+            width: 65%;
+
+            @media (max-width: 974px) {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            ul {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 5px;
+
+                @media (max-width: 974px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+              }
+              
+              li {
+                list-style-type: none;
+                text-align: left;
+              }              
+        }
+    }
+}

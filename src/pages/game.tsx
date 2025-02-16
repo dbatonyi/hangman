@@ -30,6 +30,22 @@ export default function GameScreen() {
         }
     }, [words, currentWord, dispatch]);
 
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            const key = event.key.toLowerCase();
+
+            if ('abcdefghijklmnopqrstuvwxyz'.includes(key)) {
+                handleGuess(key);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [guesses, wrongGuesses, currentWord]);
+
     const handleGuess = (letter: string) => {
         if (remainingAttempts <= 0 || guesses.includes(letter) || wrongGuesses.includes(letter)) return;
 
@@ -79,39 +95,50 @@ export default function GameScreen() {
     const getCircleStyle = () => remainingAttempts < 6 ? activeStyle.circle : inactiveStyle.circle;
 
     return (
-        <div>
-            <h1>Hangman</h1>
-            <p>Guess the word!</p>
-            <p>
-                {currentWord?.split("").map((char) => (guesses.includes(char) ? char : "_")).join(" ")}
-            </p>
-            <p>Remaining attempts: {remainingAttempts}</p>
-            <div>
-                {"abcdefghijklmnopqrstuvwxyz".split("").map((letter) => (
-                    <button key={letter} onClick={() => handleGuess(letter)} disabled={guesses.includes(letter)}>
-                        {letter}
-                    </button>
-                ))}
+        <div className="game">
+            <div className="game__container">
+                <div className="game__container--left">
+                    <h1>Hangman Game</h1>
+                    {gameStatus === "won" && <p className="success">Congratulations, you win!</p>}
+                    {gameStatus === "lost" && <p className="error">You lost!</p>}
+                    <p className="game--guesses">
+                        {currentWord?.split("").map((char, index) => (
+                            <span
+                                key={index}
+                                className={guesses.includes(char) ? "guessed" : "not-guessed"}
+                            >
+                                {guesses.includes(char) ? char : " "}
+                            </span>
+                        ))}
+                    </p>
+                    <div className="game--letters">
+                        {"abcdefghijklmnopqrstuvwxyz".split("").map((letter) => (
+                            <button key={letter} onClick={() => handleGuess(letter)} disabled={guesses.includes(letter) || wrongGuesses.includes(letter)}>
+                                {letter}
+                            </button>
+                        ))}
+                    </div>
+                    <p>Remaining possibility of failure: <strong>{remainingAttempts}</strong></p>
+                    <button onClick={() => { handleReset() }}>End game</button>
+                    <button onClick={() => { handleNewGame() }}>Start new game</button>
+                </div>
+                <div className="game__container--right">
+                    <div className={`hangman-container`}>
+                        <svg viewBox="0 0 10 12">
+                            <path d="M1,11 h8" />
+                            <path d="M9,11 v-10" />
+                            <path d="M9,1 h-4" />
+                            <path d="M5,1 v2" />
+                            <circle cx="5" cy="4" r="1" style={getCircleStyle()} />
+                            <path d="M5,5 v3" style={getPathStyle(5)} />
+                            <path d="M5,5 l-2,2" style={getPathStyle(4)} />
+                            <path d="M5,5 l2,2" style={getPathStyle(3)} />
+                            <path d="M5,8 l-2,2" style={getPathStyle(2)} />
+                            <path d="M5,8 l2,2" style={getPathStyle(1)} />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div className={`hangman-container`}>
-                <svg viewBox="0 0 10 12">
-                    <path d="M1,11 h8" />
-                    <path d="M9,11 v-10" />
-                    <path d="M9,1 h-4" />
-                    <path d="M5,1 v2" />
-                    <circle cx="5" cy="4" r="1" style={getCircleStyle()} />
-                    <path d="M5,5 v3" style={getPathStyle(5)} />
-                    <path d="M5,5 l-2,2" style={getPathStyle(4)} />
-                    <path d="M5,5 l2,2" style={getPathStyle(3)} />
-                    <path d="M5,8 l-2,2" style={getPathStyle(2)} />
-                    <path d="M5,8 l2,2" style={getPathStyle(1)} />
-                </svg>
-            </div>
-            <p>{gameStatus === "won" && "Congratulations, you win!"}</p>
-            <p>{gameStatus === "lost" && "You lost!"}</p>
-
-            <button onClick={() => { handleReset() }}>End game</button>
-            <button onClick={() => { handleNewGame() }}>Start new game</button>
         </div>
     );
 }
