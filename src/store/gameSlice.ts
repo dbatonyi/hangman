@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type GameState = {
+export type GameState = {
     words: string[];
     currentWord: string | null;
     guesses: string[];
