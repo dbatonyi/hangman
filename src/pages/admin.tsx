@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from 'react-redux';
 import useLoadWordsFromLocalStorage from "@/hooks/useLoadWordsFromLocalStorage";
 import { addWord } from '@/store/gameSlice';
@@ -6,6 +7,7 @@ import { RootState } from '../store';
 
 const AdminPanel = () => {
     useLoadWordsFromLocalStorage();
+    const router = useRouter();
     const [newWord, setNewWord] = useState('');
     const words = useSelector((state: RootState) => state.game.words);
     const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const AdminPanel = () => {
 
     return (
         <div>
-            <h1>Admin Panel</h1>
+            <h1>Admin</h1>
             <input
                 type="text"
                 value={newWord}
@@ -35,6 +37,7 @@ const AdminPanel = () => {
                 placeholder="New word"
             />
             <button onClick={handleAddWord}>Add new word</button>
+            <button onClick={() => router.push("/")}>Back</button>
             <ul>
                 {words.map((word, index) => (
                     <li key={index}>{word}</li>

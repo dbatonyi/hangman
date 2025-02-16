@@ -7,15 +7,17 @@ type GameState = {
     wrongGuesses: string[];
     remainingAttempts: number;
     gameStatus: "not_started" | "playing" | "won" | "lost";
+    difficulty: "easy" | "medium" | "hard";
 };
 
 const initialState: GameState = {
-    words: ["programozás", "typescript", "redux", "javascript", "akasztófa"],
+    words: process.env.NEXT_PUBLIC_WORDS ? process.env.NEXT_PUBLIC_WORDS.split(",") : [],
     currentWord: null,
     guesses: [],
     wrongGuesses: [],
-    remainingAttempts: 6,
+    remainingAttempts: process.env.NEXT_PUBLIC_ATTEMPTS ? Number(process.env.NEXT_PUBLIC_ATTEMPTS) : 6,
     gameStatus: "not_started",
+    difficulty: "easy",
 };
 
 // Helper function to save game state to localStorage
@@ -32,10 +34,30 @@ const gameSlice = createSlice({
             state.currentWord = action.payload;
             saveToLocalStorage(state);
         },
+        setDifficulty: (state, action: PayloadAction<"easy" | "medium" | "hard">) => {
+            state.difficulty = action.payload;
+            saveToLocalStorage(state);
+        },
         startGame: (state) => {
-            const randomWord = state.words[Math.floor(Math.random() * state.words.length)];
+            let filteredWords = [];
+            switch (state.difficulty) {
+                case "easy":
+                    filteredWords = state.words.filter(word => word.length >= 6 && word.length <= 8);
+                    break;
+                case "medium":
+                    filteredWords = state.words.filter(word => word.length >= 9 && word.length <= 12);
+                    break;
+                case "hard":
+                    filteredWords = state.words.filter(word => word.length >= 13 && word.length <= 14);
+                    break;
+            }
+
+            if (filteredWords.length === 0) filteredWords = state.words;
+
+            const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
             state.currentWord = randomWord;
             state.guesses = [];
+            state.wrongGuesses = [];
             state.remainingAttempts = 6;
             state.gameStatus = "playing";
             saveToLocalStorage(state);
@@ -77,6 +99,15 @@ const gameSlice = createSlice({
             state.wrongGuesses.push(action.payload);
             saveToLocalStorage(state);
         },
+        resetGame: (state) => {
+            state.currentWord = '';
+            state.guesses = [];
+            state.wrongGuesses = [];
+            state.remainingAttempts = 6;
+            state.gameStatus = "not_started",
+                state.difficulty = "easy",
+                saveToLocalStorage(state);
+        },
         loadWordsFromLocalStorage: (state) => {
             if (typeof window !== "undefined") {
                 const storedWords = localStorage.getItem("words");
@@ -93,6 +124,7 @@ const gameSlice = createSlice({
                         return;
                     }
 
+                    state.difficulty = parsedGameState.difficulty ?? "easy";
                     state.currentWord = parsedGameState.currentWord ?? null;
                     state.guesses = parsedGameState.guesses ?? [];
                     state.wrongGuesses = parsedGameState.wrongGuesses ?? [];
@@ -104,5 +136,5 @@ const gameSlice = createSlice({
     },
 });
 
-export const { startGame, setSelectedWord, guessLetter, addWord, addGuess, addWrongGuess, loadWordsFromLocalStorage } = gameSlice.actions;
+export const { startGame, setDifficulty, setSelectedWord, guessLetter, addWord, addGuess, addWrongGuess, loadWordsFromLocalStorage, resetGame } = gameSlice.actions;
 export default gameSlice.reducer;
