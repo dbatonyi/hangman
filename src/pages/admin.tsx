@@ -32,11 +32,9 @@ const AdminPanel = () => {
                 type="text"
                 value={newWord}
                 onChange={(e) => setNewWord(e.target.value)}
-                placeholder="Új szó"
+                placeholder="New word"
             />
-            <button onClick={handleAddWord}>Szó hozzáadása</button>
-
-            <h2>Szókészlet</h2>
+            <button onClick={handleAddWord}>Add new word</button>
             <ul>
                 {words.map((word, index) => (
                     <li key={index}>{word}</li>
