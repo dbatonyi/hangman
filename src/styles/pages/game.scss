@@ -19,6 +19,105 @@
         color: #707070;
         width: 100%;
         text-align: left;
+        margin-bottom: 60px;
+
+        @media (max-width: 974px) {
+            text-align: center;
+        }
+    }
+
+    .game-status {
+        text-align: left;
+        font-size: 30px;
+        margin: 0;
+        margin-bottom: 20px;
+        font-weight: bold;
+
+        @media (max-width: 974px) {
+            text-align: center;
+        }
+    }
+
+    &--letters {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 30px 0 0 0;
+
+        @media (max-width: 974px) {
+            justify-content: center;
+        }
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #7A7875;
+            width: 35px;
+            height: 35px;
+            padding: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: #7A7875;
+            cursor: pointer;
+
+            &:disabled {
+                color: #E6E6E6;
+                border-color: #E6E6E6;
+                cursor: default;
+            }
+        }
+    }
+
+    &--remaining {
+        text-align: left;
+        margin-bottom: 40px;
+
+        @media (max-width: 974px) {
+            justify-content: center;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-start;
+
+        @media (max-width: 974px) {
+            flex-wrap: wrap;
+        }
+
+        button {
+            width: 100%;
+            border: 1px solid transparent;
+            height: 45px;
+            width: 200px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+
+            @media (max-width: 974px) {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            &:first-of-type {
+                background-color: white;
+                border-color: #00AAEB;
+                color: #00AAEB;
+                margin-right: 10px;
+
+                @media (max-width: 974px) {
+                    margin-right: unset;
+                }
+            }
+
+            &:last-of-type {
+                background-color: #00AAEB;
+                color: white;
+            }
+        }
     }
 
     &__container {
@@ -42,7 +141,11 @@
 
             .game--guesses {
                 display: flex;
-                margin-top: 40px;
+
+                @media (max-width: 974px) {
+                    justify-content: center;
+                    flex-wrap: wrap;
+                }
 
                 span {
                     display: flex;
@@ -51,9 +154,11 @@
                     position: relative;
                     margin-right: 5px;
                     width: 30px;
+                    height: 41px;
                     font-size: 35px;
                     text-transform: uppercase;
-                    border-bottom: 1px solid black;
+                    border-bottom: 1px solid #7A7875;
+                    color: #7A7875;
                 }
             }
         }
@@ -64,7 +169,7 @@
             @media (max-width: 974px) {
                 width: 100%;
                 margin-top: 40px;
-            }            
+            }
         }
     }
 }

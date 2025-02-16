@@ -99,8 +99,8 @@ export default function GameScreen() {
             <div className="game__container">
                 <div className="game__container--left">
                     <h1>Hangman Game</h1>
-                    {gameStatus === "won" && <p className="success">Congratulations, you win!</p>}
-                    {gameStatus === "lost" && <p className="error">You lost!</p>}
+                    {gameStatus === "won" && <p className="game-status success">You've won!</p>}
+                    {gameStatus === "lost" && <p className="game-status error">You lost!</p>}
                     <p className="game--guesses">
                         {currentWord?.split("").map((char, index) => (
                             <span
@@ -118,9 +118,11 @@ export default function GameScreen() {
                             </button>
                         ))}
                     </div>
-                    <p>Remaining possibility of failure: <strong>{remainingAttempts}</strong></p>
-                    <button onClick={() => { handleReset() }}>End game</button>
-                    <button onClick={() => { handleNewGame() }}>Start new game</button>
+                    <p className="game--remaining">Remaining possibility of failure: <strong>{remainingAttempts}</strong></p>
+                    <div className="game__actions">
+                        <button onClick={() => { handleReset() }}>End game</button>
+                        <button onClick={() => { handleNewGame() }}>Start new game</button>
+                    </div>
                 </div>
                 <div className="game__container--right">
                     <div className={`hangman-container`}>

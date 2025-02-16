@@ -15,7 +15,7 @@ const initialState: GameState = {
     currentWord: null,
     guesses: [],
     wrongGuesses: [],
-    remainingAttempts: process.env.NEXT_PUBLIC_ATTEMPTS ? Number(process.env.NEXT_PUBLIC_ATTEMPTS) : 6,
+    remainingAttempts: 6,
     gameStatus: "not_started",
     difficulty: "easy",
 };
