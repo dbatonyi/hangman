@@ -46,6 +46,13 @@ NEXT_PUBLIC_WORDS=programming,typescript,redux,javascript,hangman,test,example
 npm run dev
 ```
 
+or for production
+
+```sh
+npm run build
+npm run start
+```
+
 Then open [http://localhost:3000](http://localhost:3000) in your browser.  
 
 ---

@@ -43,6 +43,11 @@ const AdminPanel = () => {
                         type="text"
                         value={newWord}
                         onChange={(e) => handleInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleAddWord();
+                            }
+                        }}
                         placeholder="New word"
                     />
                     {errorMessage && <p className='error'>{errorMessage}</p>}
